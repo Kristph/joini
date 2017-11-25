@@ -39,11 +39,11 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
 
 
     //server.connection({ port: 8080, host: '192.168.1.62' });
-    server.views({
+    /*server.views({
         engines: { ejs: require('ejs') },
         relativeTo: __dirname,
         path: 'templates/'
-    });
+    });*/
 
     server.connection({ port: 80, routes: { cors: true } });
 
