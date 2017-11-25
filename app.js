@@ -45,7 +45,7 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
         path: 'templates/'
     });*/
 
-    server.connection({ port: 80, routes: { cors: true } });
+    server.connection({ port: 6060, routes: { cors: true } });
 
     server.route({
         method: 'GET',
@@ -75,6 +75,7 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
         path: '/user',
         handler: function (req, rep) {
             //console.log(req.payload);
+            //reply('hi');
             for(var index in req.payload) { 
                 eval("nModel."+index+" = req.payload."+index+";");
             }
@@ -83,6 +84,7 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
                 rep(err);
               rep({ message: ' ok' });
             });
+
         }
     });
     server.route({
