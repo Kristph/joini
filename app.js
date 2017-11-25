@@ -23,7 +23,7 @@ const Bell = require('bell');
 
 require('./bd');
 
-
+uuid = 0;
 
 var Mouser = require('./models/user');
 //var nModel = new Mouser(); 
@@ -94,7 +94,7 @@ const server = new Hapi.Server();
         method: 'POST',
         path: '/login',
         handler: function (request, reply) {
-            uuid = 0;
+            
             if (request.auth.isAuthenticated) {
                 //return reply.redirect('/');
                 reply('true');
