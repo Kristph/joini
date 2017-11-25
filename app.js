@@ -85,15 +85,98 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
 
         }
     });
+    server.route({
+        method: 'POST',
+        path: '/login',
+        handler: function (request, reply) {
+            if (request.auth.isAuthenticated) {
+                //return reply.redirect('/');
+                reply('ok');
+            }
 
+            let message = '';
+            let account = null;
+
+            if (request.method === 'post') {
+
+                if (!request.payload.email ||
+                    !request.payload.password) {
+
+                    message = 'Missing email or password';
+                }
+                else {
+                    //console.log('email: '+request.payload.email)
+                    var usr;
+                    Mouser.findOne({ email: request.payload.email }, function (err, user) {
+                        if (err) {
+                            console.log(err)
+                        }
+                        usr = user
+                        //console.log(user);
+                        if(user!=null && user.email != null){
+
+                            if(user || user.email==request.payload.email){
+                                console.log('ok email ok'+user.email+'-'+user.email);
+                            }else{
+                                message = 'Invalid email ';
+                                return reply('<html><head><title>Login page</title></head><body>' +
+                                (message ? '<h3>' + message + '</h3><br/>' : '') +
+                                '<form method="post" action="/login">' +
+                                'email: <input type="text" name="email"><br>' +
+                                'Password: <input type="password" name="password"><br/>' +
+                                '<input type="submit" value="Login"></form></body></html>');
+                            }
+                            if(user){
+                                if(user.password==request.payload.password){
+                                    //console.log('ok pass ok'+user.password+'-'+request.payload.password);
+                                    const sid = String(++uuid);
+                                    request.server.app.cache.set(sid, { account: user }, 0, (err) => {
+
+                                        if (err) {
+                                            reply(err);
+                                        }
+
+                                        request.cookieAuth.set({ sid: sid });
+                                        return reply.redirect('/');
+                                    });
+                                }else{
+                                    message = 'Invalid pass ';
+                                    return reply('<html><head><title>Login page</title></head><body>' +
+                                    (message ? '<h3>' + message + '</h3><br/>' : '') +
+                                    '<form method="post" action="/login">' +
+                                    'email: <input type="text" name="email"><br>' +
+                                    'Password: <input type="password" name="password"><br/>' +
+                                    '<input type="submit" value="Login"></form></body></html>');            
+                                }
+                            }else{
+                                        
+                            }
+
+                        }else{
+                            message = 'Invalid email ';
+                            return reply('<html><head><title>Login page</title></head><body>' +
+                                (message ? '<h3>' + message + '</h3><br/>' : '') +
+                                '<form method="post" action="/login">' +
+                                'email: <input type="text" name="email"><br>' +
+                                'Password: <input type="password" name="password"><br/>' +
+                                '<input type="submit" value="Login"></form></body></html>');
+                        }
+
+                    });
+                }
+            }//post
+            if (request.method === 'get' || message) {
+                //return reply.view('login', {message:message});
+                reply(message);
+            }
+
+        }
+    });
     server.route({
         method: 'POST',
         path: '/registro',
         handler: function (request, reply) {
             var nModel = new Mouser(); 
-            //console.log(req.payload);
-            //reply('hi');
-
             var usr;
             Mouser.findOne({ email: request.payload.email }, function (err, user) {
                 if (err) {
@@ -104,58 +187,6 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
                         reply({ message: ' 1' });
                     }
                 }
-                /*
-                usr = user
-                //console.log(user);
-                if(user!=null && user.email != null){
-
-                    if(user || user.email==request.payload.email){
-                        console.log('ok email ok'+user.email+'-'+user.email);
-                    }else{
-                        message = 'Invalid email ';
-                        return reply('<html><head><title>Login page</title></head><body>' +
-                        (message ? '<h3>' + message + '</h3><br/>' : '') +
-                        '<form method="post" action="/login">' +
-                        'Username: <input type="text" name="username"><br>' +
-                        'Password: <input type="password" name="password"><br/>' +
-                        '<input type="submit" value="Login"></form></body></html>');
-                    } if(user) {
-                        if(user.password==request.payload.password){
-                            //console.log('ok pass ok'+user.password+'-'+request.payload.password);
-                            const sid = String(++uuid);
-                            request.server.app.cache.set(sid, { account: user }, 0, (err) => {
-
-                                if (err) {
-                                    reply(err);
-                                }
-
-                                request.cookieAuth.set({ sid: sid });
-                                //return reply.redirect('/');
-                                reply('ok');
-                            });
-                        }else{
-                            message = 'Invalid pass ';
-                            return reply('<html><head><title>Login page</title></head><body>' +
-                            (message ? '<h3>' + message + '</h3><br/>' : '') +
-                            '<form method="post" action="/login">' +
-                            'Username: <input type="text" name="username"><br>' +
-                            'Password: <input type="password" name="password"><br/>' +
-                            '<input type="submit" value="Login"></form></body></html>');            
-                        }
-                    }else{
-                                
-                    }
-
-                }else{
-                    message = 'Invalid email ';
-                    return reply('<html><head><title>Login page</title></head><body>' +
-                        (message ? '<h3>' + message + '</h3><br/>' : '') +
-                        '<form method="post" action="/login">' +
-                        'Username: <input type="text" name="username"><br>' +
-                        'Password: <input type="password" name="password"><br/>' +
-                        '<input type="submit" value="Login"></form></body></html>');
-                }
-                */
             });
 
             for(var index in request.payload) { 
