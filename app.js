@@ -91,7 +91,7 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
         handler: function (request, reply) {
             if (request.auth.isAuthenticated) {
                 //return reply.redirect('/');
-                reply('ok');
+                reply('true');
             }
 
             let message = '';
@@ -118,13 +118,9 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
                             if(user || user.email==request.payload.email){
                                 console.log('ok email ok'+user.email+'-'+user.email);
                             }else{
-                                message = 'Invalid email ';
-                                return reply('<html><head><title>Login page</title></head><body>' +
-                                (message ? '<h3>' + message + '</h3><br/>' : '') +
-                                '<form method="post" action="/login">' +
-                                'email: <input type="text" name="email"><br>' +
-                                'Password: <input type="password" name="password"><br/>' +
-                                '<input type="submit" value="Login"></form></body></html>');
+                                //message = 'Invalid email ';
+                                reply('false');
+           
                             }
                             if(user){
                                 if(user.password==request.payload.password){
@@ -137,29 +133,21 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
                                         }
 
                                         request.cookieAuth.set({ sid: sid });
-                                        return reply.redirect('/');
+                                        reply('true');
                                     });
                                 }else{
                                     message = 'Invalid pass ';
-                                    return reply('<html><head><title>Login page</title></head><body>' +
-                                    (message ? '<h3>' + message + '</h3><br/>' : '') +
-                                    '<form method="post" action="/login">' +
-                                    'email: <input type="text" name="email"><br>' +
-                                    'Password: <input type="password" name="password"><br/>' +
-                                    '<input type="submit" value="Login"></form></body></html>');            
+                                    reply('false');
+         
                                 }
                             }else{
                                         
                             }
 
                         }else{
-                            message = 'Invalid email ';
-                            return reply('<html><head><title>Login page</title></head><body>' +
-                                (message ? '<h3>' + message + '</h3><br/>' : '') +
-                                '<form method="post" action="/login">' +
-                                'email: <input type="text" name="email"><br>' +
-                                'Password: <input type="password" name="password"><br/>' +
-                                '<input type="submit" value="Login"></form></body></html>');
+                            reply('false');
+                            /*message = 'Invalid email ';*/
+                         
                         }
 
                     });
