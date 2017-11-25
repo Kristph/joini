@@ -26,7 +26,7 @@ require('./bd');
 
 
 var Mouser = require('./models/user');
-var nModel = new Mouser(); 
+//var nModel = new Mouser(); 
 //console.log(Mouser);
 
 
@@ -56,9 +56,6 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
         }
     });
 
-
-
-
     server.route({
         method: 'GET',
         path: '/users',
@@ -74,6 +71,7 @@ server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
         method: 'POST',
         path: '/user',
         handler: function (req, rep) {
+            var nModel = new Mouser(); 
             //console.log(req.payload);
             //reply('hi');
             for(var index in req.payload) { 
