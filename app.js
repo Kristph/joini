@@ -63,7 +63,7 @@ var Mouser = require('./models/user');
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
-            return reply.view('indext', {
+            return reply.view('index', {
 		title: 'Joini | Home',
 		message:'ok'
 		});
