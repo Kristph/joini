@@ -19,7 +19,7 @@ const Bell = require('bell');
 
 
 //var routes = require('./routes');
-var routes = require('./routes');
+//var routes = require('./routes');
 
 require('./bd');
 
@@ -94,6 +94,7 @@ const server = new Hapi.Server();
         method: 'POST',
         path: '/login',
         handler: function (request, reply) {
+            uuid = 0;
             if (request.auth.isAuthenticated) {
                 //return reply.redirect('/');
                 reply('true');
