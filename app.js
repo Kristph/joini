@@ -60,6 +60,16 @@ var Mouser = require('./models/user');
 
         server.route({
             method: 'GET',
+            path: '/{param*}',
+            handler: {
+                directory: {
+                    path: 'public'
+                }
+            }
+        });
+
+        server.route({
+            method: 'GET',
             path: '/',
             handler: function (request, reply) {
                 return reply.view('index', {
