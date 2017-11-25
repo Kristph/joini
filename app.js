@@ -151,7 +151,7 @@ server.route({
     handler: function (req, rep) {
         //reply('ok');
         Moevent.findById(req.params.item_id, function(err, data) {
-            console.log(data);
+            //console.log(data);
           if (err)
             rep(err);
           rep(data);
@@ -164,13 +164,13 @@ server.route({
     handler: function (req, rep) {
         Moevent.findById(req.params.item_id, function(err, item) {
           if (err)
-            rep(err);
+            console.log(err);
           for(var index in req.payload) { 
             eval("item."+index+" = req.payload."+index+";");
           }
           item.save(function(err) {
             if (err)
-              rep(err);
+              console.log(err);
             rep({ message: 'item updated!' });
           });
         });
@@ -189,8 +189,6 @@ server.route({
         });     
     }
 });
-
-
 
 server.start((err) => {
 
