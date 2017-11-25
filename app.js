@@ -58,15 +58,7 @@ var Mouser = require('./models/user');
             path: 'templates/'
         });
 
-        server.route({
-            method: 'GET',
-            path: '/{param*}',
-            handler: {
-                directory: {
-                    path: 'public'
-                }
-            }
-        });
+
 
         server.route({
             method: 'GET',
@@ -324,6 +316,16 @@ var Mouser = require('./models/user');
                     rep(err);
                   rep({ message: 'Successfully deleted' });
                 });     
+            }
+        });
+        server.route({
+            method: 'GET',
+            path: '/{param*}',
+            handler: {
+                directory: {
+                    path: 'public',
+                    listing: true
+                }
             }
         });
 
