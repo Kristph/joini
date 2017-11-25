@@ -133,15 +133,15 @@ const server = new Hapi.Server();
                                 if(user.password==request.payload.password){
                                     //console.log('ok pass ok'+user.password+'-'+request.payload.password);
                                     const sid = String(++uuid);
-                                    request.server.app.cache.set(sid, { account: user }, 0, (err) => {
+                                    reply('true');
+                                    /*request.server.app.cache.set(sid, { account: user }, 0, (err) => {
 
                                         if (err) {
                                             reply(err);
                                         }
 
                                         request.cookieAuth.set({ sid: sid });
-                                        reply('true');
-                                    });
+                                    });*/
                                 }else{
                                     message = 'Invalid pass ';
                                     reply('false');
