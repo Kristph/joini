@@ -323,8 +323,9 @@ var Mouser = require('./models/user');
             path: '/{param*}',
             handler: {
                 directory: {
-                    path: 'public',
-                    listing: true
+                    path: '.',
+                    redirectToSlash: true,
+                    index: true,
                 }
             }
         });
