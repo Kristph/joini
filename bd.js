@@ -11,8 +11,8 @@ var options = {
   bufferMaxEntries: 0
 };
 
-mongoose.connect('mongodb://localhost/joini',options);
-//mongoose.connect('mongodb://juser:juser@localhost/joini',options);
+//mongoose.connect('mongodb://localhost/joini',options);
+mongoose.connect('mongodb://juser:juser@localhost/joini',options);
 //mongoose.connect('mongodb://admin:admin@159.203.179.167/joini', { useMongoClient: true });
 
 
