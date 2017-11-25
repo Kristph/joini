@@ -26,7 +26,6 @@ require('./bd');
 
 
 var Mouser = require('./models/user');
-
 var nModel = new Mouser(); 
 //console.log(Mouser);
 
@@ -44,6 +43,7 @@ server.route({
     }
 });
 
+
 server.route({
     method: 'GET',
     path: '/users',
@@ -55,7 +55,6 @@ server.route({
         });
     }
 });
-
 server.route({
     method: 'POST',
     path: '/user',
@@ -71,8 +70,6 @@ server.route({
         });
     }
 });
-
-
 server.route({
     method: 'GET',
     path: '/user/{item_id}',
@@ -86,7 +83,6 @@ server.route({
         });
     }
 });
-
 server.route({
     method: 'PUT',
     path: '/user/{item_id}',
@@ -105,12 +101,86 @@ server.route({
         });
     }
 });
-
 server.route({
     method: 'DELETE',
     path: '/user/{item_id}',
     handler: function(req, rep){
         Mouser.remove({
+        _id: req.params.item_id
+        }, function(err, data) {
+          if (err)
+            rep(err);
+          rep({ message: 'Successfully deleted' });
+        });     
+    }
+});
+
+/********************************************************/
+var Moevent = require('./models/event');
+var eModel = new Moevent(); 
+
+server.route({
+    method: 'GET',
+    path: '/events',
+    handler: function (request, reply) {
+        Moevent.find(function(err, data) {
+          if (err)
+            console.log(err);
+          reply(data);
+        });
+    }
+});
+server.route({
+    method: 'POST',
+    path: '/event',
+    handler: function (req, rep) {
+        //console.log(req.payload);
+        for(var index in req.payload) { 
+            eval("eModel."+index+" = req.payload."+index+";");
+        }
+        eModel.save(function(err) {
+          if (err)
+            rep(err);
+          rep({ message: ' ok' });
+        });
+    }
+});
+server.route({
+    method: 'GET',
+    path: '/event/{item_id}',
+    handler: function (req, rep) {
+        //reply('ok');
+        Moevent.findById(req.params.item_id, function(err, data) {
+            console.log(data);
+          if (err)
+            rep(err);
+          rep(data);
+        });
+    }
+});
+server.route({
+    method: 'PUT',
+    path: '/event/{item_id}',
+    handler: function (req, rep) {
+        Moevent.findById(req.params.item_id, function(err, item) {
+          if (err)
+            rep(err);
+          for(var index in req.payload) { 
+            eval("item."+index+" = req.payload."+index+";");
+          }
+          item.save(function(err) {
+            if (err)
+              rep(err);
+            rep({ message: 'item updated!' });
+          });
+        });
+    }
+});
+server.route({
+    method: 'DELETE',
+    path: '/event/{item_id}',
+    handler: function(req, rep){
+        Moevent.remove({
         _id: req.params.item_id
         }, function(err, data) {
           if (err)
