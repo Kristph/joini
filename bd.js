@@ -12,8 +12,8 @@ var options = {
 };
 
 //mongoose.connect('mongodb://localhost/joini',options);
-mongoose.connect('mongodb://juser:juser@159.203.179.167/joini',options);
-//mongoose.connect('mongodb://admin:admin@159.203.179.167/joini', { useMongoClient: true });
+//mongoose.connect('mongodb://juser:juser@159.203.179.167/joini',options);
+mongoose.connect('mongodb://admin:admin@159.203.179.167/joini', { useMongoClient: true });
 
 
 var db = mongoose.connection;
