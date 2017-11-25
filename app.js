@@ -31,27 +31,32 @@ var Mouser = require('./models/user');
 
 
 const server = new Hapi.Server();
-/*
-server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
-    if (err) {
-        throw err;
-    }*/
 
+    server.connection({ port: 80, routes: { cors: true } });
+ 	
+ 
+    server.register([Hapiauthcookie,Vision,Inert,Bell],  (err) => {
+   	 if (err) {
+        	throw err;
+    		}
+	});
 
     //server.connection({ port: 8080, host: '192.168.1.62' });
-    /*server.views({
+    
+    server.views({
         engines: { ejs: require('ejs') },
         relativeTo: __dirname,
         path: 'templates/'
-    });*/
-
-    server.connection({ port: 6060, routes: { cors: true } });
+    });
 
     server.route({
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
-            return reply.view('index', {message:'ok'});
+            return reply.view('indext', {
+		title: 'Joini | Home',
+		message:'ok'
+		});
             //reply('Hello, world!');
         }
     });
