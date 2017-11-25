@@ -31,8 +31,16 @@ var Mouser = require('./models/user');
 //console.log(Mouser);
 
 
-const server = new Hapi.Server();
-
+    //const server = new Hapi.Server();
+    const server = new Hapi.Server({
+        connections: {
+            routes: {
+                files: {
+                    relativeTo: Path.join(__dirname, 'public')
+                }
+            }
+        }
+    });
     server.connection({ port: 80, routes: { cors: true } });
  	
  
@@ -41,6 +49,7 @@ const server = new Hapi.Server();
         	throw err;
     		}
 	});
+
 
     //server.connection({ port: 8080, host: '192.168.1.62' });
     
@@ -131,17 +140,10 @@ const server = new Hapi.Server();
                             }
                             if(user){
                                 if(user.password==request.payload.password){
-                                    //console.log('ok pass ok'+user.password+'-'+request.payload.password);
+                                  
                                     const sid = String(++uuid);
                                     reply('true');
-                                    /*request.server.app.cache.set(sid, { account: user }, 0, (err) => {
 
-                                        if (err) {
-                                            reply(err);
-                                        }
-
-                                        request.cookieAuth.set({ sid: sid });
-                                    });*/
                                 }else{
                                     message = 'Invalid pass ';
                                     reply('false');
